@@ -70,8 +70,8 @@ content_types_provided(Req, State) ->
 %% TODO the HTTP 500 error code is inappropriate for errors
 %% where the user provided incorrect URL or missing options.
 %% Instead return bad request http code.
--spec(json_text(Req, State) ->
-  {ResponseBody, Req, State}).
+-spec(json_text(Req :: term(), State :: term()) ->
+  {ResponseBody :: string(), Req :: term(), State :: term()}).
 json_text(Req, State) ->
   #{lat:=LatVal, lon:=LongVal, cnt:=CntVal} =
     cowboy_req:match_qs([lat, lon, {cnt, [], ?DEFAULT_MAXIMUM_CITIES_BIN}],
