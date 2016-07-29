@@ -74,7 +74,7 @@ json_text(Req, State) ->
   % to third-party site as-is and fail there unnecessarily.
   GeoLat = safe_binary_to_float(LatVal),
   GeoLong = safe_binary_to_float(LongVal),
-  CityCount = safe_binary_to_float(CntVal),
+  CityCount = binary_to_integer(CntVal),
   Response = gen_server:call(
     openweather_proxy, {geocircle, GeoLat, GeoLong, CityCount}),
   case Response of

@@ -119,12 +119,14 @@ handle_call({geocircle, GeoLat, GeoLong, CityCount}, _From, State) ->
     [{decimals, ?THIRD_PARTY_GEO_FLOAT_PRECISION}]),
   ValidatedLongVal = float_to_list(GeoLong,
     [{decimals, ?THIRD_PARTY_GEO_FLOAT_PRECISION}]),
+  ValidatedCityCount = integer_to_list(CityCount),
   % The /find api looks for latitude and longitude and find 10 (cnt=10)
   % cities for weather information.
   % see http://openweathermap.org/current for more details.
   Url = "http://api.openweathermap.org/data/2.5/find?lat=" ++
     ValidatedLatVal ++ "&lon=" ++ ValidatedLongVal ++
-    "&cnt=10&appid=" ++ ?API_KEY,
+    "&cnt=" ++ ValidatedCityCount ++
+    "&appid=" ++ ?API_KEY,
   lager:debug("fetching Url=~s~n", [Url]),
   WeatherResponse = httpc:request(Url),
   case WeatherResponse of
