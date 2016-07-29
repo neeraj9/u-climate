@@ -64,11 +64,11 @@ content_types_provided(Req, State) ->
 %resource_exists
 
 json_text(Req, State) ->
-  %io:format("Req=~w~n", [Req]),
-  %io:format("State=~w~n", [State]),
+  % The /find api looks for lattitude and longitude and find 10 (cnt=10)
+  % cities for weather information.
+  % see http://openweathermap.org/current for more details.
   Url = "http://api.openweathermap.org/data/2.5/find?lat=12.9&lon=77.5&cnt=10&appid=<API_KEY_HERE>",
   WeatherResponse = httpc:request(Url),
-  %io:format("Weather Response = ~w~n", [WeatherResponse]),
   case WeatherResponse of
     {ok, ResponseContents} ->
       {_RespFirstLine, _RespHeaders, ResponseBody} = ResponseContents,
@@ -76,6 +76,4 @@ json_text(Req, State) ->
     _ ->
       ResponseBody = <<"{}">>
   end,
-  %encoding is not required since the ResponseBody is in text format already
-  %JsonEncodedResponse = jsx:encode({<<"resp">>, ResponseBody}),
   {ResponseBody, Req, State}.
