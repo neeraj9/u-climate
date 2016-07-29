@@ -41,8 +41,6 @@
 -export([init/2]).
 -export([allowed_methods/2]).
 -export([content_types_provided/2]).
-%-export([content_types_accepted/2]).
-%-export([resource_exists/2]).
 
 %% Custom callbacks
 -export([json_text/2]).
@@ -58,10 +56,6 @@ content_types_provided(Req, State) ->
   {[
     {<<"application/json">>, json_text}
   ], Req, State}.
-
-%TODO we dont need these
-%content_types_accepted(Req, State)
-%resource_exists
 
 json_text(Req, State) ->
   % The /find api looks for latitude and longitude and find 10 (cnt=10)
