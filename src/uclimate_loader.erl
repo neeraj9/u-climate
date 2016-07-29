@@ -51,5 +51,7 @@ start() ->
   application:start(ranch),
   application:start(cowlib),
   application:start(cowboy),
+  % for issuing httpc:request(Url)
+  application:start(inets),
   application:start(uclimate),
   ok.
