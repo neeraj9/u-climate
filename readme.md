@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/neeraj9/u-climate.svg?branch=master)](https://travis-ci.org/neeraj9/u-climate)
 [![Software License (3-Clause BSD)](https://img.shields.io/badge/license-BSD%203--Clause-blue.svg?style=flat-square)](http://opensource.org/licenses/BSD-3-Clause)
 
-This project hosts an Erlang Climate service, which exposes api for querying
+This project hosts an Erlang/OTP Climate service, which exposes api for querying
 climate information around the world. This is targeted towards the
 microservices architecture for polling for climate or weather information.
 This project is one of the service running Erlang microkernel powered
