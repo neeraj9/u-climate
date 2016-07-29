@@ -103,8 +103,8 @@ init([]) ->
 -spec(get_child_specs_list(Restart :: term(), Shutdown :: integer(), Type :: term()) ->
   [ChildSpec :: supervisor:child_spec()]).
 get_child_specs_list(Restart, Shutdown, Type) ->
-  AModule = 'AModule',
-  AName = 'AName',
+  AModule = 'openweather_proxy',
+  AName = 'openweather_proxy',
   AChild = {AName, {AModule, start_link, []},
     Restart, Shutdown, Type, [AModule]},
 

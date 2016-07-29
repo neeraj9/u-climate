@@ -67,15 +67,15 @@ start(_StartType, _StartArgs) ->
       {"/climate/geocircle", uclimate_geocircle_handler, []}
     ]}
   ]),
-  {ok, _} = cowboy:start_clear(http, 100, [{port, 9595}], #{
+  {ok, _CowboyPid} = cowboy:start_clear(http, 100, [{port, 9595}], #{
     env => #{dispatch => Dispatch}
-  }).
-  %case uclimate_sup:start_link() of
-  %  {ok, Pid} ->
-  %    {ok, Pid};
-  %  Error ->
-  %    Error
-  %end.
+  }),
+  case uclimate_sup:start_link() of
+    {ok, Pid} ->
+      {ok, Pid};
+    Error ->
+      Error
+  end.
 
 %%--------------------------------------------------------------------
 %% @private

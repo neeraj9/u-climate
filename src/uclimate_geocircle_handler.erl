@@ -45,13 +45,7 @@
 %% Custom callbacks
 -export([json_text/2]).
 
-%% Set the openweather.org api key here
-%% TODO move out of code and let it be configured at runtime instead.
--define(API_KEY, "<API_KEY_HERE>").
--define(MAXIMUM_CITIES, 20).
 -define(DEFAULT_MAXIMUM_CITIES_BIN, <<"10">>).
--define(THIRD_PARTY_GEO_FLOAT_PRECISION, 1).
-
 
 init(Req, Opts) ->
   {cowboy_rest, Req, Opts}.
@@ -81,30 +75,15 @@ json_text(Req, State) ->
   GeoLat = safe_binary_to_float(LatVal),
   GeoLong = safe_binary_to_float(LongVal),
   CityCount = safe_binary_to_float(CntVal),
-  true = GeoLat > -91 andalso GeoLat < 91,
-  true = GeoLong > -181 andalso GeoLong < 181,
-  true = CityCount > 0 andalso CityCount =< ?MAXIMUM_CITIES,
-  ValidatedLatVal = float_to_list(GeoLat,
-    [{decimals, ?THIRD_PARTY_GEO_FLOAT_PRECISION}]),
-  ValidatedLongVal = float_to_list(GeoLong,
-    [{decimals, ?THIRD_PARTY_GEO_FLOAT_PRECISION}]),
-  % The /find api looks for latitude and longitude and find 10 (cnt=10)
-  % cities for weather information.
-  % see http://openweathermap.org/current for more details.
-  Url = "http://api.openweathermap.org/data/2.5/find?lat=" ++
-    ValidatedLatVal ++ "&lon=" ++ ValidatedLongVal ++
-    "&cnt=10&appid=" ++ ?API_KEY,
-  lager:debug("fetching Url=~s~n", [Url]),
-  WeatherResponse = httpc:request(Url),
-  case WeatherResponse of
-    {ok, ResponseContents} ->
-      {_RespFirstLine, _RespHeaders, ResponseBody} = ResponseContents,
-      ok;
-    _ ->
+  Response = gen_server:call(
+    openweather_proxy, {geocircle, GeoLat, GeoLong, CityCount}),
+  case Response of
+    {ok, Value} ->
+      ResponseBody = Value;
+    {error, _} ->
       ResponseBody = <<"{}">>
   end,
   {ResponseBody, Req, State}.
-
 
 safe_binary_to_float(Bin) ->
   NumString = binary_to_list(Bin),
