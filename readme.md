@@ -71,6 +71,10 @@ default value of 10. is used.
 
   `cnt=[int]`
 
+* **Authentication**
+
+  Not required.
+
 * **Data Params**
 
   There is no request body for this API.
