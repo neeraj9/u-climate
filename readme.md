@@ -51,7 +51,7 @@ default value of 10. is used.
 
 * **URL**
 
-  /climate/geocircle?lat=<LAT>&lon=<LON>[&cnt=<COUNT>]
+  `/climate/geocircle?lat=GeoLatitude&lon=GeoLongitude[&cnt=CityCount]`
 
 > The cnt query string key is optional hence enclosed within the square
 > brackets, otherwise square brackets are not part of the url.
